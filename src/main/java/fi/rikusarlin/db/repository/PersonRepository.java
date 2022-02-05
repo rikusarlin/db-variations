@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import fi.rikusarlin.db.entity.Person;
 
 @Repository 
-public interface PersonRepository extends CrudRepository<Person, Integer> {
+	public interface PersonRepository extends CrudRepository<Person, Integer> {
 }

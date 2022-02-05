@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fi.rikusarlin.db.entity.Person;
 import fi.rikusarlin.db.repository.PersonRepository;
 
 @RestController
-@RequestMapping("/api")
 public class DbController {
 
 	@Autowired
@@ -22,6 +20,7 @@ public class DbController {
 	
 	@GetMapping("/persons")
 	public ResponseEntity<List<Person>> getAllPersons() {
+		
 		try {
 			List<Person> persons = new ArrayList<Person>();
 			personRepository.findAll().forEach(persons::add);
