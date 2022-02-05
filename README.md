@@ -27,4 +27,12 @@ Performance was measured with the most simplistic JMeter setup you can get - JMe
 |Traditional, Spring Native|4min 15sec|107 MB|9600 (800 threads)|6 ms|
 |Traditional with JVM|0min 28 sec|22.6 MB|13300 (1500 threads)|28 ms|
 
-The solutions behaved differently under load. Surprisingly, you can get bigger maximum throughput from Java version - but better response times from native version. Ne need to make a better test setup.
+The solutions behaved differently under load. Surprisingly, you can get bigger maximum throughput from Java version - but better response times from native version. Ne need to make a better test setup. Tried with JMeter running from another computer in the same WLAN. In this setup, network bnecome the bottleneck, peaking at around 10 Mbit/s. CPU load at backend barely reaches 10 per cent at this stage. Results, nevertheless:
+|Max TPS|Avg response time|
+|----------|----------|----------|-------|
+|1972 (300 threads)|76 ms|
+|1600 (200 threads)|113 ms|
+
+We cannot draw that many conclusions from these results. The following we might say, though:
+* Native application has got little bit better response time
+* Traditional Java development is way easier. Native image creation is full of caveats.
