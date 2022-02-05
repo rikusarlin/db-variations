@@ -34,5 +34,5 @@ The solutions behaved differently under load. Surprisingly, you can get bigger m
 |1600 (200 threads)|113 ms|
 
 We cannot draw that many conclusions from these results. The following we might say, though:
-* Native application has got little bit better response time
+* Native application has got little bit better response time, but not radically
 * Traditional Java development is way easier. Native image creation is full of caveats.
