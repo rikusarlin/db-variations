@@ -1,10 +1,12 @@
 package fi.rikusarlin.db.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import java.util.UUID;
+
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import org.springframework.stereotype.Component;
 
 import fi.rikusarlin.db.entity.Person;
 
-@Repository 
-	public interface PersonRepository extends CrudRepository<Person, Integer> {
+@Component
+public interface PersonRepository extends R2dbcRepository<Person, UUID> {
 }
