@@ -49,7 +49,8 @@ Performance was measured with the most simplistic JMeter setup you can get - JMe
 | Traditional Spring Data          | 0min 28sec | 22.6 MB    | 7.2 sec      | 13300 (1500 threads)| 28 ms        |
 | Reactive, Netty                  | 0min 28sec | 26.6 MB    | 7.5 sec      | 8500 (800 threads)  | 13 ms        |
 | Reactive, Netty (native)         | 5min 20sec | 120 MB     | 5.1 sec      | 8400 (800 threads)  | 11 ms        |
-| Reactive, Tomcat                 | 0min 26sec | 24.2 MB    | 7.4 sec      | 5810 (500 threads)  | 8 ms        ```
+| Reactive, Tomcat                 | 0min 26sec | 24.2 MB    | 7.4 sec      | 5810 (500 threads)  | 8 ms         |
+```
 
 As we can see, the main promise of native images - faster startup time - does not hold true in this situations, where huge amounts of Tomcat and Spring Boot framework code gets packed into the image. This is disappointing, though not surprising. Fast startup requires small images, and this really isn't that small.
 
