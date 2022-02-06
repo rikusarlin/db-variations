@@ -18,7 +18,26 @@ Generally speaking, native image creation is at the time of this writing (2022-0
 The pain in here is that (on a little bit outdated 2016, 16 Gb, 4xi7 MacBook Pro) native image creation takes time - in even a simple application like this, over 4 minutes! Reminds me of bad old days doing J2EE development in Rational Application Developer with full WebSphere Application Server...
 
 Naturally, you would need to do the native compilation in environment corresponding your actual runtime environment, most likely Linux variant of some sort. I need to try this in VirtualBox Ubuntu later - it will be interesting to see whether the same combination works there, too.
+## Startup
+Spring version
+```
+mvn clean install
+java -jar ./target/db-0.0.1-SNAPSHOT.jar
+```
+Native version - not that it is imperative to skip tests in native image creation, since we don't want to have test classes packed in the image, so you better run tests first. 
+```
+mvn test
+mvn -Pnative -DskipTests package
+```
 
+## Usage
+Use whatever tool such as curl, as follows:
+```
+curl http://localhost:8080/persons
+```
+You will get a list of Donald Duck's family members in JSON form.
+
+## Performance
 Performance was measured with the most simplistic JMeter setup you can get - JMeter just bouncing one endpoint, using JMeter UI, in the same laptop where the piece of software was running. DB is in-memory H2, so there is no network traffic or disk access here. Naturally, this test setup is crappy in many respects - we should run JMeter on another machine, use it from command line - but this does test what we want, namely the the raw theoretical performance of the approach chosen. Load (number of simultaneous threads and loops in thread) was increased until we get like 90% CPU utilization.
 |Variation |Build time|Image size|Startup time|Max TPS|Avg response time|
 |----------|----------|----------|-------|
@@ -39,7 +58,8 @@ We cannot draw that many conclusions from these results. The following we might 
 * Traditional Java development is way easier. Native image creation is full of caveats.
 
 Future development: extend the analysis to other frameworks
-* Spirng WebFlux with Netty
+* Testing native image creation on different platform
+* Spring WebFlux with Netty
 * Spring WebFlux with Netty, compiled with Spring Native
 * Quarkus
 * Quarkus, native compiled
