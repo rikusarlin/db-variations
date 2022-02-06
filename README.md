@@ -2,9 +2,7 @@
 Spring DB access with different variations
 
 This repo aims to compare image size, performance, startup time and memory consumption of simple DB access application in various styles:
-* Reactive with Netty
 * "Traditional" Spring Data with Tomcat
-* Reactive with Netty, compiled with Spring Native
 * "Traditional" Spring Data with Tomcat, compiled with Spring Native
 
 The use case is simplistic, the fear being that native compilation gets increasingly difficult as more dependencies are added. So we just do a simple select with primary key.
@@ -21,18 +19,27 @@ The pain in here is that (on a little bit outdated 2016, 16 Gb, 4xi7 MacBook Pro
 
 Naturally, you would need to do the native compilation in environment corresponding your actual runtime environment, most likely Linux variant of some sort. I need to try this in VirtualBox Ubuntu later - it will be interesting to see whether the same combination works there, too.
 
-Performance was measured with the most simplistic JMeter setup you can get - JMeter just bouncing one endpoint, using JMeter UI, in the same laptop where the piece of software was running. DB is in-memory H2, so there is no network traffic or disk access here. Naturally, this test setup is crappy in many respects - we should run JMeter on another machine, use it from command line - but this does test what we want, namely the the raw theoretical performance of the approach chosen. Load (number of simultaneous threads and loops in thread) was increased untill we get like 90% CPU utilization.
-|Variation |Build time|Image size|Max TPS|Avg response time|
+Performance was measured with the most simplistic JMeter setup you can get - JMeter just bouncing one endpoint, using JMeter UI, in the same laptop where the piece of software was running. DB is in-memory H2, so there is no network traffic or disk access here. Naturally, this test setup is crappy in many respects - we should run JMeter on another machine, use it from command line - but this does test what we want, namely the the raw theoretical performance of the approach chosen. Load (number of simultaneous threads and loops in thread) was increased until we get like 90% CPU utilization.
+|Variation |Build time|Image size|Startup time|Max TPS|Avg response time|
 |----------|----------|----------|-------|
-|Traditional, Spring Native|4min 15sec|107 MB|9600 (800 threads)|6 ms|
-|Traditional with JVM|0min 28 sec|22.6 MB|13300 (1500 threads)|28 ms|
+|Traditional, Spring Native|4min 15sec|107 MB|7.2 sec|9600 (800 threads)|6 ms|
+|Traditional with JVM|0min 28 sec|22.6 MB|5.1 sec|13300 (1500 threads)|28 ms|
 
-The solutions behaved differently under load. Surprisingly, you can get bigger maximum throughput from Java version - but better response times from native version. Ne need to make a better test setup. Tried with JMeter running from another computer in the same WLAN. In this setup, network bnecome the bottleneck, peaking at around 10 Mbit/s. CPU load at backend barely reaches 10 per cent at this stage. Results, nevertheless:
+As we can see, the main promise of native images - faster startup time - does not hold true in this situations, where huge amounts of Tomcat and Spring Boot framework code gets packed into the image. This is disappointing.
+
+The solutions behaved differently under load. Surprisingly, you can get bigger maximum throughput from Java version - but better response times from native version. Ne need to make a better test setup. Tried with JMeter running from another computer in the same WLAN. In this setup, network become the bottleneck, peaking at around 10 Mbit/s. CPU load at backend barely reaches 10 per cent at this stage. Results, nevertheless:
 |Max TPS|Avg response time|
 |----------|----------|----------|-------|
 |1972 (300 threads)|76 ms|
 |1600 (200 threads)|113 ms|
 
 We cannot draw that many conclusions from these results. The following we might say, though:
-* Native application has got little bit better response time
+* With this setup, startup time of native image is not that much better
+* Native application may have a little bit better response times
 * Traditional Java development is way easier. Native image creation is full of caveats.
+
+Future development: extend the analysis to other frameworks
+* Spirng WebFlux with Netty
+* Spring WebFlux with Netty, compiled with Spring Native
+* Quarkus
+* Quarkus, native compiled
