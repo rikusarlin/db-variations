@@ -1,5 +1,5 @@
 # db-variations
-Spring DB access with different variations
+Simple Rest on DB table with different styles, JVM and native.
 
 This repo aims to compare image size, performance, startup time and memory consumption of simple DB access application in various styles:
 * "Traditional" Spring Data with Tomcat
