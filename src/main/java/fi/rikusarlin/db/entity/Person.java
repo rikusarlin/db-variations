@@ -1,8 +1,11 @@
 package fi.rikusarlin.db.entity;
 
 public class Person {
+    
     private long id;
+
     private String firstName;
+
     private String lastName;
     
 	public long getId() {
