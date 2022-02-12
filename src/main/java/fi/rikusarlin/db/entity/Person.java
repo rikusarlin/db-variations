@@ -1,27 +1,12 @@
 package fi.rikusarlin.db.entity;
 
-public class Person {
-    private long id;
-    private String firstName;
-    private String lastName;
-    
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-    
+import javax.persistence.Entity;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
+@Entity
+public class Person extends PanacheEntity {
+    public Long id;
+    public String firstName;
+    public String lastName;   
 }
